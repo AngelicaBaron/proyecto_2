@@ -1,0 +1,74 @@
+class Pelicula:
+    def __init__(self, nombre):
+        self.__nombre = nombre
+    
+    def get_nombre(self):
+        return self.__nombre
+
+
+class CatalogoPeliculas:
+    def __init__(self, nombre, ruta_archivo):
+        self.nombre = nombre
+        self.ruta_archivo = ruta_archivo
+
+  
+    def agregar_pelicula(self, pelicula):
+        with open(self.ruta_archivo, "a") as file:
+            file.write(pelicula.get_nombre() + "\n")
+
+              
+    def listar_peliculas(self):
+        with open(self.ruta_archivo, "r") as file:
+            print("Películas en el catálogo:")
+            print(file.read())
+
+  
+    def eliminar_catalogo(self):
+        import os
+        if os.path.exists(self.ruta_archivo):
+            os.remove(self.ruta_archivo)
+            print("Catálogo de películas eliminado")
+        else:
+            print("El catálogo de películas no existe")
+
+
+  
+def main():
+    nombre_catalogo = input("Ingrese el nombre del catálogo de películas: ")
+    ruta_archivo = "catalogo_" + nombre_catalogo + ".txt"
+    catalogo = CatalogoPeliculas(nombre_catalogo, ruta_archivo)
+
+
+    while True:
+        print("\nMenú de opciones:")
+        print("1. Agregar película")
+        print("2. Listar películas")
+        print("3. Eliminar catálogo de películas")
+        print("4. Salir")
+        opcion = input("Selecciona una opción: ")
+
+  
+        if opcion == "1":
+            nombre_pelicula = input("Ingrese el nombre de la película: ")
+            pelicula = Pelicula(nombre_pelicula)
+            catalogo.agregar_pelicula(pelicula)
+
+  
+        elif opcion == "2":
+            catalogo.listar_peliculas()
+
+  
+        elif opcion == "3":
+            catalogo.eliminar_catalogo()
+
+  
+        elif opcion == "4":
+            print("Saliendo del programa")
+            break
+
+  
+        else:
+            print("Opción inválida. Por favor, ingresa un número del 1 al 4.")
+
+if __name__ == "__main__":
+    main()
